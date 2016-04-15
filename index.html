@@ -41,7 +41,7 @@
         <h1>
 <a id="maxwells-demons" class="anchor" href="#maxwells-demons" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maxwell's Demons</h1>
 
-<p><a href="https://github.com/BobbyPhysics" class="user-mention">@BobbyPhysics</a>, <a href="https://github.com/gvetaw" class="user-mention">@gvetaw</a>, and <a href="https://github.com/awarren9" class="user-mention">@awarren9</a> are a team of computational physics students at ASU</p>
+<p>Bobby Hackett (<a href="https://github.com/BobbyPhysics" class="user-mention">@BobbyPhysics</a>), Greg Vetaw (<a href="https://github.com/gvetaw" class="user-mention">@gvetaw</a>), and Alex Warren (<a href="https://github.com/awarren9" class="user-mention">@awarren9</a>) are a team of computational physics students at Arizona State University.</p>
 
 <h2>
 <a id="current-project" class="anchor" href="#current-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current Project</h2>
@@ -57,9 +57,26 @@ dynamics (MD) code to simulate liquid Argon. We want to study how varying some o
 simulation parameters affects the accuracy of the simulations and extract thermodynamic
 properties from the simulations. You will write a short “letter”-style paper to communicate,
 discuss and summarize your reasoning and your results.</p>
-</blockquote>
 
-<p>Due Tue, March 22, 2016, 1:30pm.</p>
+<hr>
+
+<h3>
+<a id="sample-code" class="anchor" href="#sample-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sample Code:</h3>
+
+<div class="highlight highlight-source-python"><pre>        <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">range</span>(<span class="pl-c1">N</span>):    <span class="pl-c"># nested loop that calculates the LJ force and the difference between atoms</span>
+            <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">range</span>(i<span class="pl-k">+</span><span class="pl-c1">1</span>, <span class="pl-c1">N</span>):
+                <span class="pl-k">if</span> i <span class="pl-k">==</span> j:
+                    <span class="pl-k">continue</span>
+                dr <span class="pl-k">=</span> r[<span class="pl-c1">0</span>, j]<span class="pl-k">-</span>r[<span class="pl-c1">0</span>, i] <span class="pl-c"># t = 0 and dr is the updated difference vector </span>
+                mdr <span class="pl-k">=</span> minimage(dr,box)
+                Fij <span class="pl-k">=</span> F_LJ(mdr) <span class="pl-c"># Lennard Jones force calculation </span>
+                <span class="pl-c1">F</span>[<span class="pl-c1">0</span>, i, :] <span class="pl-k">+=</span> Fij   <span class="pl-c"># total force for all atom</span>
+                <span class="pl-c1">F</span>[<span class="pl-c1">0</span>, j, :] <span class="pl-k">+=</span> <span class="pl-k">-</span>Fij
+                Uij <span class="pl-k">=</span> U_LJ_fast(mdr) <span class="pl-c"># Lennard Jones potential energy calculation </span>
+                <span class="pl-c1">U</span>[<span class="pl-c1">0</span>, i] <span class="pl-k">+=</span> Uij   <span class="pl-c"># total potential energy for all atoms</span>
+                <span class="pl-c1">U</span>[<span class="pl-c1">0</span>, j] <span class="pl-k">+=</span> Uij
+                <span class="pl-c1">H</span>[<span class="pl-c1">0</span>] <span class="pl-k">=</span> <span class="pl-c1">.5</span><span class="pl-k">*</span>np.sum(<span class="pl-c1">U</span>[<span class="pl-c1">0</span>]) <span class="pl-k">+</span> np.sum(<span class="pl-c1">K</span>[<span class="pl-c1">0</span>]) <span class="pl-c">#Hamiltion at t = 0</span></pre></div>
+</blockquote>
       </section>
 
     </div>
